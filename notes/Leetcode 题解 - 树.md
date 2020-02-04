@@ -927,7 +927,7 @@ Output: True
 使用中序遍历得到有序数组之后，再利用双指针对数组进行查找。
 
 应该注意到，这一题不能用分别在左右子树两部分来处理这种思想，因为两个待求的节点可能分别在左右子树中。
-
+这两个都是 time: O(n) space: O(n)
 ```java
 public boolean findTarget(TreeNode root, int k) {
     List<Integer> nums = new ArrayList<>();
@@ -948,6 +948,23 @@ private void inOrder(TreeNode root, List<Integer> nums) {
     nums.add(root.val);
     inOrder(root.right, nums);
 }
+```
+or use hashset
+```java
+  public boolean findTarget(TreeNode root, int k) {
+        Set<Integer> set = new HashSet<>();
+        return inorder(root, set, k);
+    }
+    private boolean inorder(TreeNode root, Set<Integer> set, int k) {
+        if (root == null) {
+            return false;
+        }
+        if (set.contains(k - root.val)) {
+            return true;
+        }
+        set.add(root.val);
+        return inorder(root.left, set, k) || inorder(root.right, set, k);
+    }
 ```
 
 ## 9. 在二叉查找树中查找两个节点之差的最小绝对值
